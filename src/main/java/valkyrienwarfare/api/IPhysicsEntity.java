@@ -4,6 +4,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
+/**
+ * This interface is a boiled down version of the PhysicsWrapperEntity used in
+ * the Valkyrien Warfare mod.
+ * 
+ * @author thebest108
+ *
+ */
 public interface IPhysicsEntity {
 
 	/**
