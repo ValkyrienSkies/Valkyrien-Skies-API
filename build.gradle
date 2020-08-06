@@ -16,7 +16,7 @@ apply plugin: 'maven-publish'
 ext {
     //general things
     javaVersion = "1.8"
-    vsApiVersion = "1.0"
+    vsApiVersion = "1.0.0." + ('git rev-list --count HEAD'.execute().text.trim())
 
     //minecraft things
     mcpmappingsVersion = "stable_39"
@@ -24,7 +24,7 @@ ext {
     minecraftVersion = "1.12.2"
 }
 
-version = "$vsApiVersion-$minecraftVersion"
+version = "$vsApiVersion"
 group = "org.valkyrienskies"
 archivesBaseName = "api"
 
@@ -65,10 +65,6 @@ processResources {
     }
 }
 
-jar {
-    archiveName "vs-api-v$vsApiVersion-$minecraftVersion" + ".jar"
-}
-
 publishing {
     repositories {
         if (project.hasProperty("daporkchopMavenUsername") && project.hasProperty("daporkchopMavenPassword")) {
@@ -79,7 +75,7 @@ publishing {
                 }
 
                 name = "DaPorkchop_"
-                url = "https://maven.daporkchop.net/snapshot/"
+                url = "https://maven.daporkchop.net/release/"
             }
         }
     }
@@ -87,9 +83,11 @@ publishing {
         maven(MavenPublication) {
             groupId = "org.valkyrienskies"
             artifactId = "api"
-            version = project.version + "-SNAPSHOT"
+            version = project.version
 
-            from components.java
+            artifact jar {
+                classifier null
+            }
             artifact sourceJar {
                 classifier "sources"
             }
