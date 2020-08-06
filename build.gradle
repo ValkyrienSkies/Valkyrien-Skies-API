@@ -1,31 +1,46 @@
 buildscript {
     repositories {
         jcenter()
-        maven { url = "http://files.minecraftforge.net/maven" }
+        maven {
+            name = "MinecraftForge"
+            url = "https://files.minecraftforge.net/maven"
+        }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
-//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
-version = "1.0"
-group = "valkyrienwarfare" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+ext {
+    //general things
+    javaVersion = "1.8"
+    vsApiVersion = "1.0"
+
+    //minecraft things
+    mcpmappingsVersion = "stable_39"
+    minecraftforgeVersion = "14.23.5.2847"
+    minecraftVersion = "1.12.2"
+}
+
+version = "$vsApiVersion-$minecraftVersion"
+group = "org.valkyrienskies"
 archivesBaseName = "api"
 
-sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
+    sourceCompatibility = targetCompatibility = "$javaVersion"
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
 }
 
 minecraft {
-    version = "1.12.2-14.23.4.2712"
+    version = "$minecraftVersion-$minecraftforgeVersion"
     runDir = "run"
-
-    mappings = "snapshot_20171003"
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+    mappings = "$mcpmappingsVersion"
+    makeObfSourceJar = false
 }
 
 dependencies {
@@ -49,3 +64,36 @@ processResources {
         exclude 'mcmod.info'
     }
 }
+
+jar {
+    archiveName "vs-api-v$vsApiVersion-$minecraftVersion" + ".jar"
+}
+
+publishing {
+    repositories {
+        if (project.hasProperty("daporkchopMavenUsername") && project.hasProperty("daporkchopMavenPassword")) {
+            maven {
+                credentials {
+                    username = "$daporkchopMavenUsername"
+                    password = "$daporkchopMavenPassword"
+                }
+
+                name = "DaPorkchop_"
+                url = "https://maven.daporkchop.net/snapshot/"
+            }
+        }
+    }
+    publications {
+        maven(MavenPublication) {
+            groupId = "org.valkyrienskies"
+            artifactId = "api"
+            version = project.version + "-SNAPSHOT"
+
+            from components.java
+            artifact sourceJar {
+                classifier "sources"
+            }
+        }
+    }
+}
+
