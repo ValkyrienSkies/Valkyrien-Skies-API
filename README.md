@@ -10,13 +10,13 @@ Add this to Maven repositories:
 ```groovy
 maven {
     name = "DaPorkchop_"
-	url = "https://maven.daporkchop.net/"
+    url = "https://maven.daporkchop.net/"
 }
 ```
 
 Add this to dependencies:  
 ```groovy
-compile "org.valkyrienskies:api:1.0-1.12.2-SNAPSHOT"
+compile "org.valkyrienskies:api:1.0.0.9"
 ```
 
 As with any API, packaging and redistributing this API within your mod is strongly discouraged.
