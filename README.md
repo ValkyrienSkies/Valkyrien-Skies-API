@@ -1,14 +1,23 @@
-# Valkyrien-Warfare-API
-A simple API providing helper functions to allow other mods to easily interact with Valkyrien Warfare.
+# Valkyrien-Skies-API
 
-To add VW API to your mod do the following:
-  Add this to Maven repositories:
-  maven {
-		url 'https://maven.daporkchop.net/'
-	}
-  Add this to dependencies:
-  compile 'valkyrienwarfare:api:1.0'
-  And add this to your build task:
-  include(dependency('valkyrienwarfare:api'))
+[![Build Status](https://jenkins.daporkchop.net/job/ValkyrienSkies/job/Valkyrien-Skies-API/job/master/badge/icon)](https://jenkins.daporkchop.net/job/ValkyrienSkies/job/Valkyrien-Skies-API/job/master/)
+[![Discord](https://img.shields.io/discord/244934352092397568.svg)](https://discord.gg/rG3QNDV)
 
-You are allowed to redistribute and package the code of the API within your mod.
+A simple API providing helper functions to allow other mods to easily interact with Valkyrien Skies.
+
+To add VW API to your mod do the following:  
+Add this to Maven repositories:  
+```groovy
+maven {
+    name = "DaPorkchop_"
+	url = "https://maven.daporkchop.net/"
+}
+```
+
+Add this to dependencies:  
+```groovy
+compile "org.valkyrienskies:api:1.0-1.12.2-SNAPSHOT"
+```
+
+As with any API, packaging and redistributing this API within your mod is strongly discouraged.
+
